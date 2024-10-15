@@ -10,6 +10,9 @@ const MoveType = {
     L: 'LEFT',
     R: 'RIGHT',
     S: 'STAY',
+    LEFT: 'LEFT',
+    RIGHT: 'RIGHT',
+    STAY: 'STAY',
 };
 
 class ResultTuring {

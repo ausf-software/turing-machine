@@ -14,7 +14,7 @@
 		<link rel="apple-touch-icon" href="https://ausf-software.github.io/images/favicons/apple.png">  <!-- 180×180 -->
 		<link rel="manifest" href="https://ausf-software.github.io/manifest.webmanifest">
 
-		<link rel="stylesheet" type="text/css" href="C:\Users\danii\Documents\Files\FrontEnd\ausf-software.github.io\css\standart-style.css">
+		<link rel="stylesheet" type="text/css" href="/css/standart-style.css">
 		<link rel="stylesheet" type="text/css" href="css/turing_calc.css">
 		
 		<meta name="viewport" content="width=device-width">
@@ -22,7 +22,7 @@
 		<meta name="keywords" content="алгоритм Маркова, правила замены, формальные языки, теория автоматов, обработка строк, алгоритмы, искусственный интеллект | Markov algorithm, replacement rules, formal languages, automata theory, string processing, algorithms, artificial intelligence" />		
 		<meta name = "robots" content = "index,follow" />
 
-		<script type="text/javascript" src="C:\Users\danii\Documents\Files\FrontEnd\ausf-software.github.io\js\standart-script.js"></script>
+		<script type="text/javascript" src="/js/standart-script.js"></script>
 	</head>
 
 	<body>
@@ -56,30 +56,23 @@
 					<div class="tape" id="tape"></div>
 					<div class="caret" id="caret"></div>
 				</div>
-				<button onclick="moveLeft()">Влево</button>
-				<button onclick="moveRight()">Вправо</button>
 			</section>
 			
 			<section class="input-section center">
 				<div class="input-form">
-					<div class="space-div">
-						<label for="initialState">Начальное состояние:</label>
-						<input type="text" id="initialState" name="initialState" required>
-					</div>
-
-					<div class="space-div">
-						<label for="tape">Лента (символы):</label>
-						<input type="text" id="tape" name="tape" required>
-					</div>
-					
 					<div class="space-div">
 						<label for="emptySymbol">Пустой символ:</label>
 						<input type="text" id="emptySymbol" name="emptySymbol" required>
 					</div>
 
 					<div class="space-div">
-						<label for="alphabet">Алфавит машины Тьюринга:</label>
-						<input type="text" id="alphabet" name="alphabet" required>
+						<label for="tape">Лента (символы):</label>
+						<input type="text" id="tape-input" name="tape" required>
+					</div>
+
+					<div class="space-div">
+						<label for="initialState">Начальное состояние:</label>
+						<input type="text" id="initialState" name="initialState" required>
 					</div>
 					
 					<div class="space-div">
@@ -87,7 +80,7 @@
 					</div>
 
 					<div class="space-div">
-						<button type="submit">Запустить программу</button>
+						<button type="submit" onclick="run()">Запустить программу</button>
 					</div>
 				</div>
 				<div class="input-form answer-form">

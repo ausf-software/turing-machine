@@ -1,16 +1,27 @@
 const tapeElement = document.getElementById('tape');
 const caretElement = document.getElementById('caret');
-const emptySymbol = '□'; // Символ пустоты
-let tape = '11000000000000000000000000000000000000000000000000001'; // Пример содержимого ленты
-let headPosition = 0; // Начальная позиция каретки
-let renderTapeString = '';
+var emptySymbol = '□'; // Символ пустоты
+var tape = '11000000000000000000001'; // Пример содержимого ленты
+var headPosition = 0; // Начальная позиция каретки
 
-const tapeWidth = 600;
+const tapeWidth = 920;
 const cellWidth = 40;
-const countCells = 600 / cellWidth;
+const countCells = tapeWidth / cellWidth;
 const midCells = countCells / 2;
 const countTempCells = 2;
-console.log(midCells);
+
+function clearAnswer() {
+	const lineContainer = document.getElementById('lineContainer');
+	lineContainer.innerHTML = "";
+}
+
+function setResultString(str) {
+	document.getElementById('result_string').innerHTML = `Result: ${str}`;
+}
+
+function setResultSteps(str) {
+	document.getElementById('result_steps').innerHTML = `Count steps: ${str}`;
+}
 
 function renderTape(emptySymbol, tape) {
     tapeElement.innerHTML = '';
@@ -51,35 +62,53 @@ function moveRight() {
     if (headPosition < tape.length) {
         headPosition++;
         renderTape();
-    } else {
-        tape += ''; // Добавляем пустой символ, если нужно
-        renderTape();
     }
 }
 
 
 renderTape(emptySymbol, tape);
 
-function parseTuringMachineProgram(program) {
-    const states = {};
+function convertString(inputString) {
+    const regex = /[a-zA-Z0-9_]+/g;
+    var result = inputString.replace(/['"]/g, '');
+    result = result.replace(regex, match => `"${match}"`);
+    result = '{' + result + '}';
+    result = result.replace(/}/g, '},');
+    result = result.replace(/([LSR])\n/g, '$1,\n');
+    result = result.replace(/,,/g, ',');
+    result = result.replace(/},\s*}/g, '}}');
+    result = result.replace(/}},\s*},/g, '}}}');
+    return result;
+}
+
+function validateMoveType(move) {
+    if (!MoveType[move]) {
+        throw new Error(`Invalid move type: ${move}. Valid types are: ${Object.keys(MoveType).join(', ')}`);
+    }
+}
+
+function parseTuringMachineProgram(programString, emptySymbol, tape, startState) {
+    const program = JSON.parse(convertString(programString));
+    const result = new TuringProgram(startState, tape, emptySymbol);
     
     for (const [stateName, transitions] of Object.entries(program)) {
-        states[stateName] = {};
         
         for (const [symbol, action] of Object.entries(transitions)) {
             if (typeof action === 'string') {
-                states[stateName][symbol] = new Command(symbol, MoveType[action], stateName);
+                validateMoveType(action);
+                result.addTransition(stateName, symbol, new Command(symbol, MoveType[action], stateName));
             } else {
                 const { write, move, nextState } = action;
-                states[stateName][symbol] = new Command(write, MoveType[move], nextState);
+                validateMoveType(move);
+                result.addTransition(stateName, symbol, new Command(write || symbol, MoveType[move], nextState || stateName));
             }
         }
     }
     
-    return states;
+    return result;
 }
 
-const program = {
+const program = `
     q1: {
         1: 'L',
         e: { write: 1, move: 'L', nextState: 'q2' }
@@ -98,27 +127,27 @@ const program = {
     q5: {
         e: { move: 'R', nextState: 'q2' }
     }
-};
-
-const parsedProgram = parseTuringMachineProgram(program);
-console.log(parsedProgram);
+`;
+//const parsedProgram = parseTuringMachineProgram(program);
+//console.log(parsedProgram);
 
 function run() {
-    const initialState = document.getElementById('initialState').value;
-    const tape = document.getElementById('tape').value;
-    const emptySymbol = document.getElementById('emptySymbol').value;
-    const alphabet = document.getElementById('alphabet').value;
+    var initialState = document.getElementById('initialState').value;
+    var _tape = document.getElementById('tape-input').value;
+    var _emptySymbol = document.getElementById('emptySymbol').value;
+    var programmText = document.getElementById('rules-string').value;
+    var p = parseTuringMachineProgram(programmText, _emptySymbol, _tape, initialState);
+    console.log(p);
+    var t = new TuringMachine(p);
+    var r = t.run(1000);
+    console.log(r);
 
-    const transitions = [];
-    const rows = document.querySelectorAll('#transitionsTable tbody tr');
-    rows.forEach(row => {
-        const state = row.querySelector('input[name="state"]').value;
-        const symbol = row.querySelector('input[name="symbol"]').value;
-        const writeSymbol = row.querySelector('input[name="writeSymbol"]').value;
-        const move = row.querySelector('select[name="move"]').value;
-        const nextState = row.querySelector('input[name="nextState"]').value;
-        transitions.push({ state, symbol, writeSymbol, move, nextState });
-    });
+    setResultString(r.tape);
+    setResultSteps(r.steps);
+    clearAnswer();
+    const lineContainer = document.getElementById('lineContainer');
+    addLinesToContainer(r.history, lineContainer);
 
-    console.log({ initialState, tape, emptySymbol, alphabet, transitions });
+    headPosition = r.headPosition;
+    renderTape(_emptySymbol, r.tape)
 };

@@ -1,6 +1,7 @@
 .tape-container {
     position: relative;
-    width: 602px;
+    margin: 15px auto;
+    width: 922px;
     height: 55px;
     overflow: hidden;
     border: 1px solid #000;
