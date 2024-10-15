@@ -1,0 +1,113 @@
+<!DOCTYPE HTML>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+
+		<title>Turing machine emulator</title>
+
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@100&display=swap" rel="stylesheet">
+		
+		<link rel="icon" href="https://ausf-software.github.io/favicon.ico"> <!-- 32×32 -->
+		<link rel="icon" href="https://ausf-software.github.io/images/favicons/icon.svg" type="image/svg+xml">
+		<link rel="apple-touch-icon" href="https://ausf-software.github.io/images/favicons/apple.png">  <!-- 180×180 -->
+		<link rel="manifest" href="https://ausf-software.github.io/manifest.webmanifest">
+
+		<link rel="stylesheet" type="text/css" href="C:\Users\danii\Documents\Files\FrontEnd\ausf-software.github.io\css\standart-style.css">
+		<link rel="stylesheet" type="text/css" href="css/turing_calc.css">
+		
+		<meta name="viewport" content="width=device-width">
+		<meta name="description" content="Алгоритм Маркова — это метод обработки строк, который использует набор правил для замены подстрок в исходной строке. Он широко применяется в теории автоматов и формальных языках, а также в различных областях, таких как лингвистика и искусственный интеллект. Алгоритм позволяет моделировать и анализировать последовательности символов, что делает его полезным инструментом для решения задач, связанных с преобразованием данных. | Markov algorithm is a string processing method that uses a set of rules for replacing substrings in the initial string. It is widely used in automata theory and formal languages, as well as in various fields such as linguistics and artificial intelligence. The algorithm allows modeling and analyzing sequences of characters, making it a useful tool for solving problems related to data transformation." />
+		<meta name="keywords" content="алгоритм Маркова, правила замены, формальные языки, теория автоматов, обработка строк, алгоритмы, искусственный интеллект | Markov algorithm, replacement rules, formal languages, automata theory, string processing, algorithms, artificial intelligence" />		
+		<meta name = "robots" content = "index,follow" />
+
+		<script type="text/javascript" src="C:\Users\danii\Documents\Files\FrontEnd\ausf-software.github.io\js\standart-script.js"></script>
+	</head>
+
+	<body>
+
+		<header>
+			<section>
+				<nav class="navbar">
+					<div class="burger" id="burger">
+						<div class="line"></div>
+						<div class="line"></div>
+						<div class="line"></div>
+					</div>
+					<div class="nav-list" id="nav-list">
+						<a href="#">Home</a>
+						<a href="#">About</a>
+						<a href="#">Products</a>
+						<a href="#">Tutorials</a>
+						<a href="#">GitHub</a>
+					</div>
+				</nav>
+			</section>
+			<section class="content-container banner">
+				<p>Algorithmic machine</p>
+				<h1 class="slogan">Turing machine emulator</h1>
+			</section>
+		</header>
+
+		<main>
+			<section>
+				<div class="tape-container">
+					<div class="tape" id="tape"></div>
+					<div class="caret" id="caret"></div>
+				</div>
+				<button onclick="moveLeft()">Влево</button>
+				<button onclick="moveRight()">Вправо</button>
+			</section>
+			
+			<section class="input-section center">
+				<div class="input-form">
+					<div class="space-div">
+						<label for="initialState">Начальное состояние:</label>
+						<input type="text" id="initialState" name="initialState" required>
+					</div>
+
+					<div class="space-div">
+						<label for="tape">Лента (символы):</label>
+						<input type="text" id="tape" name="tape" required>
+					</div>
+					
+					<div class="space-div">
+						<label for="emptySymbol">Пустой символ:</label>
+						<input type="text" id="emptySymbol" name="emptySymbol" required>
+					</div>
+
+					<div class="space-div">
+						<label for="alphabet">Алфавит машины Тьюринга:</label>
+						<input type="text" id="alphabet" name="alphabet" required>
+					</div>
+					
+					<div class="space-div">
+						<textarea type="text" class="textarea-size" name="rules-string" id="rules-string" placeholder="Rules"></textarea>
+					</div>
+
+					<div class="space-div">
+						<button type="submit">Запустить программу</button>
+					</div>
+				</div>
+				<div class="input-form answer-form">
+					<div id="result_string" class="space-div">Result:</div>
+					<div id="result_steps" class="space-div">Count steps:</div>
+					<div class="line-table-container list-size" id="lineContainer"></div>
+				</div>
+			</section>
+		</main>
+
+		<script type="text/javascript" src="js/turing.js"></script>
+		<script type="text/javascript" src="js/turing_calc.js"></script>
+
+		<footer>
+			<div class="social-links">
+				<a href="https://habr.com/ru/users/ausf-software/" target="_blank">Habr</a>
+				<a href="https://github.com/ausf-software" target="_blank">GitHub</a>
+				<a href="https://leetcode.com/u/ausf-software/" target="_blank">LeetCode</a>
+			</div>
+		</footer>
+		
+	</body>
+</html>
